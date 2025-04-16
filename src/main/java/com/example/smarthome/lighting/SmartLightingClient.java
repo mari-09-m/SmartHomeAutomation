@@ -22,7 +22,7 @@ public class SmartLightingClient {
                 .usePlaintext()
                 .build();
 
-        // 🔐 Generate a secure 256-bit JWT token
+    
         Key secretKey = Keys.hmacShaKeyFor("thisisaverystrongkeyusedforhs256auth!".getBytes());
 
         String jwt = Jwts.builder()
@@ -38,7 +38,7 @@ public class SmartLightingClient {
                 Metadata.Key.of("authorization", Metadata.ASCII_STRING_MARSHALLER);
         metadata.put(jwtHeader, "Bearer " + jwt);
 
-        // ✅ Attach headers to both blocking and async stubs
+        
         SmartLightingServiceGrpc.SmartLightingServiceBlockingStub blockingStub =
                 MetadataUtils.attachHeaders(
                         SmartLightingServiceGrpc.newBlockingStub(channel), metadata);
@@ -53,10 +53,10 @@ public class SmartLightingClient {
         testSendEnergyUsage(asyncStub);
         testRealTimeLightControl(asyncStub);
 
-        // Wait a bit for async responses (client & bidirectional streaming) to complete
+        
 Thread.sleep(3000); // wait 3 seconds
 
-// Then shut down the channel gracefully
+
 channel.shutdownNow().awaitTermination(5, java.util.concurrent.TimeUnit.SECONDS);
 
     }
