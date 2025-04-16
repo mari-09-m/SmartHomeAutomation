@@ -66,13 +66,13 @@ public class SmartLightingPanel extends JPanel {
                     .setSubject("lighting-client")
                     .setIssuer("smarthome")
                     .setIssuedAt(new Date())
-                    .setExpiration(new Date(System.currentTimeMillis() + 3600_000)) // valid for 1 hour
+                    .setExpiration(new Date(System.currentTimeMillis() + 3600_000)) 
                     .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
                     .compact();
 
             // Create channel
             ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50053)
-                    .usePlaintext()  // Use plaintext for simplicity
+                    .usePlaintext() 
                     .build();
 
             // Attach JWT to metadata
@@ -100,7 +100,7 @@ public class SmartLightingPanel extends JPanel {
                 ex.printStackTrace();
                 outputArea.setText("Error: " + ex.getMessage());
             } finally {
-                // Shutdown channel after request is completed
+                
                 channel.shutdown();
             }
         }
