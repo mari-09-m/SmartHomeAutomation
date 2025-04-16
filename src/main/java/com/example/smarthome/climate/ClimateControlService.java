@@ -28,7 +28,7 @@ public class ClimateControlService {
                 .addService(ServerInterceptors.intercept(new ClimateControlServiceImpl(), new AuthInterceptor()))
                 .build();
 
-        logger.info("🌡️ ClimateControlService gRPC server is starting on port {}", port);
+        logger.info("ClimateControlService gRPC server is starting on port {}", port);
         server.start();
         server.awaitTermination();
     }
@@ -41,7 +41,7 @@ public class ClimateControlService {
             jmdns.registerService(info);
             logger.info("📡 Service registered via jmDNS: {}", name);
         } catch (IOException e) {
-            logger.error("❌ Failed to register service with jmDNS", e);
+            logger.error("Failed to register service with jmDNS", e);
         }
     }
 
@@ -86,13 +86,13 @@ public class ClimateControlService {
 
                 @Override
                 public void onNext(SensorReading value) {
-                    logger.info("📈 SensorReading -> {}: {}", value.getType(), value.getValue());
+                    logger.info("SensorReading -> {}: {}", value.getType(), value.getValue());
                     summary.append(value.getType()).append(": ").append(value.getValue()).append("\n");
                 }
 
                 @Override
                 public void onError(Throwable t) {
-                    logger.error("❌ Error in reportSensorReadings stream", t);
+                    logger.error("Error in reportSensorReadings stream", t);
                 }
 
                 @Override
@@ -112,20 +112,20 @@ public class ClimateControlService {
             return new StreamObserver<>() {
                 @Override
                 public void onNext(TemperatureData value) {
-                    logger.info("🌡️ Received temperature data: {}°C in {}", value.getCurrentTemperature(), value.getRoom());
+                    logger.info("Received temperature data: {}°C in {}", value.getCurrentTemperature(), value.getRoom());
 
                     if (value.getCurrentTemperature() > 30.0) {
                         AlertMessage alert = AlertMessage.newBuilder()
-                                .setMessage("⚠️ High temperature in " + value.getRoom())
+                                .setMessage("High temperature in " + value.getRoom())
                                 .build();
-                        logger.warn("🚨 Alert triggered for room: {}", value.getRoom());
+                        logger.warn("Alert triggered for room: {}", value.getRoom());
                         responseObserver.onNext(alert);
                     }
                 }
 
                 @Override
                 public void onError(Throwable t) {
-                    logger.error("❌ Error in temperatureAlerts stream", t);
+                    logger.error("Error in temperatureAlerts stream", t);
                 }
 
                 @Override
