@@ -19,9 +19,9 @@ public class ApiKeyInterceptor implements ServerInterceptor {
 
         if (!VALID_API_KEY.equals(clientApiKey)) {
             call.close(Status.UNAUTHENTICATED.withDescription("Invalid API Key"), headers);
-            return new ServerCall.Listener<>() {}; // Block unauthorized calls
+            return new ServerCall.Listener<>() {}; 
         }
 
-        return next.startCall(call, headers); // Allow valid calls
+        return next.startCall(call, headers); 
     }
 }
