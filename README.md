@@ -1,4 +1,5 @@
 Smart Home Automation System
+
 Overview
 The Smart Home Automation System is designed to automate key functions in a home environment. It provides intelligent control over climate (temperature), lighting, and security systems. The system uses gRPC for communication between services, enabling real-time data exchange and control.
 This project integrates three core services:
