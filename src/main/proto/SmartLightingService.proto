@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option java_package = "com.example.smarthome.lighting";
+option java_outer_classname = "SmartLightingProto";
+option java_multiple_files = true;
+
+service SmartLightingService {
+  // Unary: Toggle light status
+  rpc ToggleLight (LightCommand) returns (LightStatus);
+
+  // Server Streaming: Get light status updates
+  rpc StreamLightStatus (LightStatusRequest) returns (stream LightStatus);
+
+  // Client Streaming: Send energy usage data
+  rpc SendEnergyUsage (stream EnergyUsageData) returns (EnergyUsageSummary);
+
+  // Bidirectional Streaming: Real-time light control
+  rpc RealTimeLightControl (stream LightCommand) returns (stream LightStatus);
+}
+
+message LightCommand {
+  string room = 1;
+  bool turnOn = 2;
+}
+
+message LightStatus {
+  string room = 1;
+  bool isOn = 2;
+  string timestamp = 3;
+}
+
+message LightStatusRequest {
+  string room = 1;
+}
+
+message EnergyUsageData {
+  string deviceId = 1;
+  float energyUsed = 2;
+  string timestamp = 3;
+}
+
+message EnergyUsageSummary {
+  string summary = 1;
+}
+

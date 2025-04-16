@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+option java_package = "com.example.smarthome.security";
+option java_outer_classname = "SmartSecurityProto";
+option java_multiple_files = true;
+
+service SmartSecurityService {
+  rpc ManageAccess (AccessRequest) returns (AccessResponse);
+  rpc GetCameraFeed (CameraRequest) returns (stream CameraResponse);
+  rpc SendSensorData (stream SensorData) returns (SummaryResponse);
+  rpc LiveDoorMonitor (stream DoorStatus) returns (stream SecurityAlert);
+}
+
+message AccessRequest {
+  string userId = 1;
+}
+
+message AccessResponse {
+  bool granted = 1;
+}
+
+message CameraRequest {
+  string cameraId = 1;
+}
+
+message CameraResponse {
+  string image = 1;
+}
+
+message SensorData {
+  string type = 1;
+  float value = 2;
+  string timestamp = 3;
+}
+
+message SummaryResponse {
+  string summary = 1;
+}
+
+message DoorStatus {
+  string doorId = 1;
+  bool isOpen = 2;
+}
+
+message SecurityAlert {
+  string message = 1;
+}

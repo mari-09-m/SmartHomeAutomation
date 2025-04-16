@@ -1,0 +1,53 @@
+
+syntax = "proto3";
+
+option java_package = "com.example.smarthome.climate";
+option java_outer_classname = "ClimateControlProto";
+option java_multiple_files = true;
+
+service ClimateControlService {
+  // Unary: Set desired temperature
+  rpc SetTemperature (TemperatureRequest) returns (TemperatureResponse);
+
+  // Server Streaming: Get current temperature updates
+  rpc GetCurrentTemperature (TemperatureQuery) returns (stream TemperatureData);
+
+  // Client Streaming: Send multiple sensor readings
+  rpc ReportSensorReadings (stream SensorReading) returns (SensorSummary);
+
+  // Bidirectional Streaming: Real-time monitoring & alerts
+  rpc TemperatureAlerts (stream TemperatureData) returns (stream AlertMessage);
+}
+
+message TemperatureRequest {
+  string room = 1;
+  float targetTemperature = 2;
+}
+
+message TemperatureResponse {
+  string status = 1;
+}
+
+message TemperatureQuery {
+  string room = 1;
+}
+
+message TemperatureData {
+  string room = 1;
+  float currentTemperature = 2;
+  string timestamp = 3;
+}
+
+message SensorReading {
+  string type = 1;
+  float value = 2;
+  string timestamp = 3;
+}
+
+message SensorSummary {
+  string summary = 1;
+}
+
+message AlertMessage {
+  string message = 1;
+}
