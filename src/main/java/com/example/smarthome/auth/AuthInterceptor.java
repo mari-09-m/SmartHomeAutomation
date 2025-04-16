@@ -39,6 +39,6 @@ public class AuthInterceptor implements ServerInterceptor {
         }
 
         call.close(Status.UNAUTHENTICATED.withDescription("Missing or invalid JWT"), headers);
-        return new ServerCall.Listener<>() {}; // No JWT or invalid JWT, block the call
+        return new ServerCall.Listener<>() {}; 
     }
 }
