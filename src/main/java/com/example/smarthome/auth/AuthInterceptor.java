@@ -21,16 +21,16 @@ public class AuthInterceptor implements ServerInterceptor {
         String jwtToken = headers.get(jwtHeader);
 
         if (jwtToken != null && jwtToken.startsWith("Bearer ")) {
-            jwtToken = jwtToken.substring(7);  // Remove the "Bearer " prefix
+            jwtToken = jwtToken.substring(7);  
 
             try {
                 // Validate the JWT token
                 Jwts.parserBuilder()
                         .setSigningKey(SECRET_KEY)
                         .build()
-                        .parseClaimsJws(jwtToken);  // This will throw an exception if invalid
+                        .parseClaimsJws(jwtToken); 
 
-                return next.startCall(call, headers); // JWT is valid, proceed with the call
+                return next.startCall(call, headers); 
 
             } catch (JwtException e) {
                 call.close(Status.UNAUTHENTICATED.withDescription("Invalid JWT: " + e.getMessage()), headers);
