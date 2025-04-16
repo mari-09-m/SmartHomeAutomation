@@ -26,10 +26,10 @@ public class SmartSecurityServer {
 
         Server server = ServerBuilder.forPort(port)
                 .addService(ServerInterceptors.intercept(
-                        new SmartSecurityServiceImpl(), new AuthInterceptor()))  // Added AuthInterceptor here
+                        new SmartSecurityServiceImpl(), new AuthInterceptor())) 
                 .build();
 
-        logger.info("🛡️ SmartSecurityService gRPC server is starting on port {}", port);
+        logger.info("SmartSecurityService gRPC server is starting on port {}", port);
         server.start();
         server.awaitTermination();
     }
@@ -39,9 +39,9 @@ public class SmartSecurityServer {
             JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
             ServiceInfo serviceInfo = ServiceInfo.create(type, name, port, "Security monitoring service");
             jmdns.registerService(serviceInfo);
-            logger.info("📡 jmDNS registered service: {}", name);
+            logger.info("jmDNS registered service: {}", name);
         } catch (IOException e) {
-            logger.error("❌ jmDNS registration failed", e);
+            logger.error("jmDNS registration failed", e);
         }
     }
 
@@ -50,7 +50,7 @@ public class SmartSecurityServer {
         @Override
         public void manageAccess(AccessRequest request, StreamObserver<AccessResponse> responseObserver) {
             String userId = request.getUserId();
-            logger.info("🔐 Access requested for userId: {}", userId);
+            logger.info("Access requested for userId: {}", userId);
 
             // Handle the request for access (validation logic, etc.)
             AccessResponse response = AccessResponse.newBuilder()
@@ -63,18 +63,18 @@ public class SmartSecurityServer {
 
         @Override
         public void getCameraFeed(CameraRequest request, StreamObserver<CameraResponse> responseObserver) {
-            logger.info("📷 Streaming camera feed for: {}", request.getCameraId());
+            logger.info("Streaming camera feed for: {}", request.getCameraId());
 
             for (int i = 1; i <= 3; i++) {
                 CameraResponse frame = CameraResponse.newBuilder()
-                        .setImage("📸 Frame " + i + " from camera " + request.getCameraId())
+                        .setImage("Frame " + i + " from camera " + request.getCameraId())
                         .build();
                 responseObserver.onNext(frame);
 
                 try {
                     Thread.sleep(1000); // Simulate streaming delay
                 } catch (InterruptedException e) {
-                    logger.error("⚠️ Streaming error", e);
+                    logger.error("Streaming error", e);
                 }
             }
 
@@ -88,13 +88,13 @@ public class SmartSecurityServer {
 
                 @Override
                 public void onNext(SensorData data) {
-                    logger.info("📊 SensorData received: {} -> {}", data.getType(), data.getValue());
+                    logger.info("SensorData received: {} -> {}", data.getType(), data.getValue());
                     summary.append(data.getType()).append(": ").append(data.getValue()).append("\n");
                 }
 
                 @Override
                 public void onError(Throwable t) {
-                    logger.error("❌ SensorData stream error", t);
+                    logger.error("SensorData stream error", t);
                 }
 
                 @Override
@@ -117,8 +117,8 @@ public class SmartSecurityServer {
                     boolean isOpen = status.getIsOpen();
 
                     String message = isOpen
-                            ? "🚨 Door " + doorId + " is OPEN!"
-                            : "✅ Door " + doorId + " is CLOSED.";
+                            ? " Door " + doorId + " is OPEN!"
+                            : " Door " + doorId + " is CLOSED.";
 
                     logger.info("🚪 DoorStatus update: {}", message);
 
@@ -131,7 +131,7 @@ public class SmartSecurityServer {
 
                 @Override
                 public void onError(Throwable t) {
-                    logger.error("❌ LiveDoorMonitor stream error", t);
+                    logger.error(" LiveDoorMonitor stream error", t);
                 }
 
                 @Override
