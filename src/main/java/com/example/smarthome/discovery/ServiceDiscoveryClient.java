@@ -19,7 +19,7 @@ public class ServiceDiscoveryClient {
 
             @Override
             public void serviceAdded(ServiceEvent event) {
-                // Trigger serviceResolved
+                
                 jmdns.requestServiceInfo(event.getType(), event.getName(), 1);
             }
 
@@ -40,7 +40,7 @@ public class ServiceDiscoveryClient {
         });
 
         // Keep running to allow discovery
-        Thread.sleep(5000); // Wait a few seconds to discover the service
+        Thread.sleep(5000); 
         jmdns.close();
     }
 }
