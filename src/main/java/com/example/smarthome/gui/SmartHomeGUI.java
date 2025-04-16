@@ -13,11 +13,11 @@ public class SmartHomeGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
 
-        // 🧩 Tabs for each service
+        //Tabs for each service
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Climate Control", new ClimateControlPanel());
-        tabbedPane.addTab("Lighting", new SmartLightingPanel()); // Will be replaced later
-        tabbedPane.addTab("Security", new SmartSecurityPanel()); // Will be replaced later
+        tabbedPane.addTab("Lighting", new SmartLightingPanel()); 
+        tabbedPane.addTab("Security", new SmartSecurityPanel()); 
 
         frame.add(tabbedPane);
         frame.setVisible(true);
