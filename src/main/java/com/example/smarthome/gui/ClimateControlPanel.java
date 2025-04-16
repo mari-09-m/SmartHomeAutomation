@@ -22,7 +22,7 @@ public class ClimateControlPanel extends JPanel {
     private final JTextField tempField;
     private final JTextArea outputArea;
 
-    // JWT secret key for signing (this should be the same as the server's secret key)
+    // JWT secret key for signing
     private static final String JWT_SECRET = "thisisaverystrongkeyusedforhs256auth!";
     private static final Key SECRET_KEY = Keys.hmacShaKeyFor(JWT_SECRET.getBytes());
 
@@ -48,11 +48,11 @@ public class ClimateControlPanel extends JPanel {
 
         // Button
         JButton setButton = new JButton("Set Temperature");
-        setButton.addActionListener(this::handleSetTemperature);  // Corrected method reference
+        setButton.addActionListener(this::handleSetTemperature);  
         add(setButton, BorderLayout.SOUTH);
     }
 
-    private void handleSetTemperature(ActionEvent e) {  // Add ActionEvent as parameter
+    private void handleSetTemperature(ActionEvent e) { 
         String room = roomField.getText();
         float temperature;
 
@@ -80,7 +80,7 @@ public class ClimateControlPanel extends JPanel {
         // 3. Attach JWT token to metadata
         Metadata metadata = new Metadata();
         Metadata.Key<String> jwtHeader = Metadata.Key.of("authorization", Metadata.ASCII_STRING_MARSHALLER);
-        metadata.put(jwtHeader, "Bearer " + jwt);  // Add the JWT token as "Bearer <token>"
+        metadata.put(jwtHeader, "Bearer " + jwt);  
 
         // 4. Wrap the stub
         ClimateControlServiceGrpc.ClimateControlServiceBlockingStub stub =
@@ -94,9 +94,9 @@ public class ClimateControlPanel extends JPanel {
 
         try {
             TemperatureResponse response = stub.setTemperature(request);
-            outputArea.append("✅ " + response.getStatus() + "\n");
+            outputArea.append(" * " + response.getStatus() + "\n");
         } catch (Exception ex) {
-            outputArea.append("❌ Error: " + ex.getMessage() + "\n");
+            outputArea.append("Error: " + ex.getMessage() + "\n");
         } finally {
             try {
                 channel.shutdown().awaitTermination(3, TimeUnit.SECONDS);
