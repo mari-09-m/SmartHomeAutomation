@@ -26,17 +26,17 @@ public class SmartSecurityClient {
                 .usePlaintext()
                 .build();
 
-        // AUTH: Create Metadata with API Key & JWT
+        
         Metadata headers = new Metadata();
 
-        // Set the API Key in the request metadata
+        
         Metadata.Key<String> apiKeyHeader = Metadata.Key.of("x-api-key", Metadata.ASCII_STRING_MARSHALLER);
         headers.put(apiKeyHeader, API_KEY);
 
         // Create JWT token and set it in the headers
-        String jwt = generateJwt("user123");  // Generate JWT Token
+        String jwt = generateJwt("user123");  
         Metadata.Key<String> jwtHeader = Metadata.Key.of("authorization", Metadata.ASCII_STRING_MARSHALLER);
-        headers.put(jwtHeader, "Bearer " + jwt);  // Add JWT in 'Bearer' format
+        headers.put(jwtHeader, "Bearer " + jwt);  
 
         // Attach the headers to both blocking and async stubs
         SmartSecurityServiceGrpc.SmartSecurityServiceBlockingStub blockingStub =
@@ -47,14 +47,14 @@ public class SmartSecurityClient {
                 MetadataUtils.attachHeaders(
                         SmartSecurityServiceGrpc.newStub(channel), headers);
 
-        // Perform tests for each service
+    
         testManageAccess(blockingStub);
         testGetCameraFeed(blockingStub);
         testSendSensorData(asyncStub);
         testLiveDoorMonitor(asyncStub);
 
         // Wait for async responses (client and bidirectional streaming) to complete
-        Thread.sleep(3000);  // Wait for 3 seconds for async responses
+        Thread.sleep(3000);  
 
         // Clean up by shutting down the channel gracefully
         channel.shutdownNow().awaitTermination(5, java.util.concurrent.TimeUnit.SECONDS);
@@ -143,7 +143,7 @@ public class SmartSecurityClient {
         requestObserver.onCompleted();
     }
 
-    // Generate JWT for testing
+    
     public static String generateJwt(String userId) {
         long nowMillis = System.currentTimeMillis();
         return Jwts.builder()
